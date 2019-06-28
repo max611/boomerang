@@ -393,6 +393,9 @@ BOOMR_check_doc_domain();
 		// custom keys.
 		beacon_auth_key: "Authorization",
 
+		// Content-type used by Beacon API
+		beacon_content_type: "application/x-www-form-urlencoded",
+
 		// Beacon authorization token. This is only needed if your are using a POST
 		// and the beacon requires an Authorization token to accept your data.  This
 		// disables use of the browser sendBeacon() API.
@@ -2314,6 +2317,8 @@ BOOMR_check_doc_domain();
 		 * @param {string} config.beacon_url The URL to beacon results back to.
 		 * If not set, no beacon will be sent.
 		 * @param {boolean} config.beacon_url_force_https Forces protocol-relative Beacon URLs to HTTPS
+		 * @param {string} config.beacon_content_type Specifies the content type used by the Beacon.
+		 * If not set, 'application/x-www-form-urlencoded' will be used.
 		 * @param {string} config.beacon_type `GET`, `POST` or `AUTO`
 		 * @param {string} [config.site_domain] The domain that all cookies should be set on
 		 * Boomerang will try to auto-detect this, but unless your site is of the
@@ -2345,6 +2350,7 @@ BOOMR_check_doc_domain();
 				    "beacon_disable_sendbeacon",
 				    "beacon_url",
 				    "beacon_url_force_https",
+				    "beacon_content_type",
 				    "beacon_type",
 				    "site_domain",
 				    "strip_query_string",
@@ -3906,7 +3912,7 @@ BOOMR_check_doc_domain();
 		sendXhrPostBeacon: function(xhr, paramsJoined) {
 			xhr.open("POST", impl.beacon_url);
 
-			xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			xhr.setRequestHeader("Content-type", impl.beacon_content_type);
 
 			if (typeof impl.beacon_auth_token !== "undefined") {
 				if (typeof impl.beacon_auth_key === "undefined") {
